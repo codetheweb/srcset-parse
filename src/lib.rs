@@ -1,6 +1,5 @@
-use std::sync::OnceLock;
-
 use regex::Regex;
+use std::sync::OnceLock;
 
 /// A single candidate in a `srcset`: a URL plus optional "width" or "density".
 #[derive(Debug, Clone, PartialEq)]
@@ -8,6 +7,16 @@ pub struct ImageCandidate {
     pub url: String,
     pub width: Option<f64>,
     pub density: Option<f64>,
+}
+
+impl PartialOrd for ImageCandidate {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        match (self.width, self.density, other.width, other.density) {
+            (Some(a), None, Some(b), None) => Some(a.partial_cmp(&b).unwrap()),
+            (None, Some(a), None, Some(b)) => Some(a.partial_cmp(&b).unwrap()),
+            _ => None,
+        }
+    }
 }
 
 /// Regex for matching srcset segments.
