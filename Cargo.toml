@@ -2,6 +2,8 @@
 name = "srcset-parse"
 version = "0.1.0"
 edition = "2021"
+description = "Parse the srcset attribute of an <img/> tag"
+license = "MIT"
 
 [dependencies]
 regex = "1.11.1"
